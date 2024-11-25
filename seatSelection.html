@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>좌석 선택</title>
+    <link rel="stylesheet" href="./css/popup.css">
+    <script defer src="./js/seatSelection.js"></script>
+  </head>
+  <body style="display: flex; justify-content: space-between">
+    <div id="secure">
+      <div id="code">
+        <p class="title">보안문자를 입력해주세요</p>
+        <div class="explain">
+          <p>부정예매방지를 위해 아래의 문자를 입력해주세요</p>
+          <p>인증 후 좌석을 선택할 수 있습니다</p>
+        </div>
+        <div id="captcha-container" style="display: flex; justify-content: center; align-content: center">
+          <img id="code-image" src="http://127.0.0.1:5000/generate-captcha" alt="captcha">
+          <div style="display: flex; flex-direction: column">
+<!--            <button id="read-captcha">-->
+<!--              <img src="https://cdn-icons-png.flaticon.com/128/4347/4347490.png"/>-->
+<!--            </button>-->
+            <button id="reload-captcha">
+              <img src="https://cdn-icons-png.flaticon.com/128/7134/7134763.png"/>
+            </button>
+          </div>
+        </div>
+        <form id="captcha-form" method="POST" action="/verify-captcha">
+          <input type="text" id="captcha-input" name="captcha" required />
+          <div class="button-wrapper" style="flex-direction: row">
+            <button id="cancel">날짜 다시 선택</button>
+            <button id="complete" type="submit">입력완료</button>
+          </div>
+        </form>
+      </div>
+      <div id="overlay"></div>
+    </div>
+    <div id="seat-map">
+    </div>
+    <div id="sidebar">
+      <div id="step">
+        <div class="current">좌석 선택</div>
+        <p>&gt;</p>
+        <div>할인 권종 선택</div>
+        <p>&gt;</p>
+        <div>결제</div>
+      </div>
+      <div>
+        <div class="label">좌석등급 / 잔여석</div>
+        <div id="seat-counts"></div>
+      </div>
+      <div>
+        <div class="label">선택좌석</div>
+        <div id="seat-info"></div>
+      </div>
+      <button class="next" id="book-complete">좌석선택완료</button>
+    </div>
+  </body>
+</html>

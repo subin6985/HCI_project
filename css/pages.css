@@ -1,0 +1,203 @@
+#orders {
+  margin-bottom: 40px;
+  gap: 17px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+#orders .button {
+  width: 94px;
+  height: 40px;
+  border: 1px solid #E3E3E3;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+
+#orders .button:hover {
+  background-color: #f0f0f0;
+}
+
+#orderMenu.dropdown-content {
+  top: 45px;
+  left: -3px;
+  width: 100px;
+}
+
+#locationMenu.dropdown-content {
+  top: 45px;
+  left: 113px;
+  width: 90px;
+}
+
+#list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-row-gap: 48px;
+  margin-bottom: 80px;
+}
+
+#list .card {
+  width: 225px;
+  height: 395px;
+  cursor: pointer;
+}
+
+#list .card .thumbnail {
+  width: 100%;
+  height: 300px;
+  margin-bottom: 12px;
+  border: 1px solid #E3E3E3;
+  border-radius: 8px;
+}
+
+#list .card .title {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+#list .card .location {
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+#list .card .date {
+  font-size: 14px;
+  color: #999999;
+}
+
+
+/* DETAIL */
+.about {
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.about .title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.about .info {
+  flex-direction: column;
+  margin-left: 40px;
+  font-size: 16px;
+}
+
+.about .info div {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+}
+
+.about .info div .label {
+  width: 70px;
+  margin-right: 50px;
+  font-weight: 600;
+}
+
+#share {
+  width: 24px;
+  height: 24px;
+  margin: 5px 0 0 271px;
+}
+
+.flatpickr-calendar {
+  padding: 10px !important;
+  width: auto !important;
+  height: 310px !important;
+  border: 1px solid #E6E6E6 !important;
+  box-shadow: 0 2px 9px #E6E6E6 !important;
+}
+
+/* '관람일' 제목 스타일 */
+.calendar-title {
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+  margin-left: 5px;
+}
+
+.flatpickr-current-month .numInputWrapper {
+  display: none !important;
+}
+
+/* 상단 월/연도 텍스트 커스텀 */
+.flatpickr-current-month {
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600 !important;
+}
+
+.flatpickr-prev-month, .flatpickr-next-month {
+  margin-top: 28px;
+}
+
+/* 선택된 날짜 배경색 */
+.flatpickr-day.selected {
+  background-color: #8E43E7 !important;
+  color: #fff !important;
+  border: none;
+}
+
+/* 오늘 표시 색상 */
+.flatpickr-day.today {
+  border: 1px solid #8E43E7 !important;
+}
+
+/* 일요일 텍스트 색상 */
+.flatpickr-weekday:first-child {
+  color: red !important;
+}
+
+#show-info {
+  width: 308px;
+  padding: 15px;
+  margin-top: 10px;
+  border: 1px solid #E6E6E6;
+  border-radius: 5px;
+  box-shadow: 0 2px 9px #E6E6E6;
+  display: flex;
+  flex-direction: column;
+}
+
+#show-info .label {
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+#show-time {
+  margin-bottom: 5px;
+}
+
+.divider {
+  width: 90%;
+  height: 1px;
+  background-color: #E6E6E6;
+  margin: 10px 0 10px 5%;
+}
+
+#book {
+  margin-top: 10px;
+  width: 100%;
+  padding: 15px;
+  color: white;
+  background-color: #8E43E7;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#book:hover {
+  background-color: #7035B7;
+}
