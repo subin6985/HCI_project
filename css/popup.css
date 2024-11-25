@@ -1,3 +1,4 @@
+/* SEAT */
 #secure {
   position: fixed;
   top: 0;
@@ -166,6 +167,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 325px;
 }
 
 #step div {
@@ -213,7 +215,7 @@
   background-color: white
 }
 
-.next {
+.select {
   background-color: #C7261F;
   color: white;
   font-size: 16px;
@@ -229,7 +231,50 @@
   transform: translateX(-50%);
 }
 
-.next:hover,
+.select:hover,
 .auto-assign-button:hover {
   background-color: #A81E18 !important;
+}
+
+/* DISCOUNT */
+#info {
+  margin-top: 20px;
+  margin-bottom: 300px;
+  background-color: white;
+  gap: 5px;
+  padding: 10px;
+}
+
+.column {
+  display: flex;
+  flex-direction: row;
+}
+
+.column .tag {
+  font-weight: 600;
+  width: 100px;
+}
+
+.next, .prev {
+  background-color: #C7261F;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: calc(50% - 5px);
+}
+
+.prev {
+  background-color: #888888 !important;
+}
+
+.next:hover {
+  background-color: #A81E18 !important;
+}
+
+.prev:hover {
+  background-color: #666666 !important;
 }
