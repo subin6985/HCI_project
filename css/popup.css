@@ -290,7 +290,12 @@ table {
 }
 
 th,td {
-  padding: 10px 20px;
+  padding: 5px 20px;
   text-align: center;
   border: 1px solid #000;
+}
+
+.discount-checkbox {
+  width: 20px;
+  height: 20px;
 }

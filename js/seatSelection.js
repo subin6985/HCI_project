@@ -66,37 +66,37 @@ const pages = {
             <td style="background-color: #F1EEEC">기본가</td>
             <td>일반</td>
             <td>정가</td>
-            <td></td>
+            <td><input type="checkbox" class="discount-checkbox" data-discount="0" checked></td>
           </tr>
           <tr>
             <td id="rowspan" rowspan="5" style="padding: 50px; background-color: #F1EEEC">할인가</td>
             <td>조기예매 할인</td>
             <td>25%</td>
-            <td></td>
+            <td><input type="checkbox" class="discount-checkbox" data-discount="25"></td>
           </tr>
           <tr>
             <td>서울시 중구민 할인</td>
             <td>10%</td>
-            <td></td>
+            <td><input type="checkbox" class="discount-checkbox" data-discount="10"></td>
           </tr>
           <tr id="matine">
             <td>마티네 할인</td>
             <td>30%</td>
-            <td></td>
+            <td><input type="checkbox" class="discount-checkbox" data-discount="30"></td>
           </tr>
           <tr>
             <td>장애인 할인</td>
             <td>50%</td>
-            <td></td>
+            <td><input type="checkbox" class="discount-checkbox" data-discount="50"></td>
           </tr>
           <tr>
             <td>국가유공자 할인</td>
             <td>50%</td>
-            <td></td>
+            <td><input type="checkbox" class="discount-checkbox" data-discount="50"></td>
           </tr>
           <tr>
             <td colspan="3" style="background-color: #F1EEEC">총액</td>
-            <td id="price"></td>
+            <td id="price" style="width: 100px"></td>
           </tr>
         </table>
       </div>
@@ -622,6 +622,7 @@ function loadPage(page) {
     .map((data) => data[4]) // 좌석 정보를 추출
     .join('\n');
 
+    // 수, 금만 마티네 할인 표시
     const day = (new Date(musicalDate)).getDay();
     if (day === 3 || day === 5) {
       document.getElementById("matine").style.display = "";
@@ -629,6 +630,63 @@ function loadPage(page) {
       document.getElementById("matine").style.display = "none";
       document.getElementById("rowspan").rowSpan = 4;
     }
+
+    // 좌석별 금액
+    const seatPrices = {
+      VIP: 170000,
+      R: 140000,
+      S: 110000,
+      A: 80000
+    };
+
+    // 총액 계산 함수
+    function calculateTotal() {
+      const seatCounts = { 'VIP': 0, 'R': 0, 'S': 0, 'A': 0};
+
+      // reservationData에서 등급별로 카운트
+      reservationData.slice(1).forEach((reservation) => {
+        const seatInfo = reservation[4];
+        if (seatInfo.includes('VIP')) seatCounts['VIP']++;
+        if (seatInfo.includes('R')) seatCounts['R']++;
+        if (seatInfo.includes('S')) seatCounts['S']++;
+        if (seatInfo.includes('A')) seatCounts['A']++;
+      });
+
+      // 기본 총액 계산
+      let totalPrice = 0;
+      for (const [seatType, count] of Object.entries(seatCounts)) {
+        totalPrice += seatPrices[seatType] * count;
+      }
+
+      // 할인율 적용
+      const selectedCheckbox = document.querySelector('.discount-checkbox:checked');
+      let discount = 0;
+      if (selectedCheckbox) {
+        discount = parseInt(selectedCheckbox.getAttribute('data-discount'), 10);
+      }
+
+      const discountedPrice = totalPrice * (1 - discount / 100);
+
+      // 총액 표시
+      document.getElementById('price').textContent = discountedPrice.toLocaleString() + '원';
+    }
+
+    // 체크박스 클릭 시 다른 체크박스 해제 및 총액 재계산
+    document.querySelectorAll('.discount-checkbox').forEach((checkbox) => {
+      checkbox.addEventListener('change', (event) => {
+        // 클릭한 체크박스 제외 나머지 체크박스 해제
+        document.querySelectorAll('.discount-checkbox').forEach((otherCheckbox) => {
+          if (otherCheckbox !== event.target) {
+            otherCheckbox.checked = false;
+          }
+        });
+        // 총액 재계산
+        calculateTotal();
+      });
+    });
+
+    // 페이지 로드 시 초기 계산
+    calculateTotal();
 
     document.getElementById("prev-step").addEventListener("click", () => {
       sessionStorage.setItem('isPrevClicked', 'true');
