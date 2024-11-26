@@ -20,9 +20,9 @@ const pages = {
             </div>
           </div>
           <form id="captcha-form" method="POST" action="/verify-captcha">
-            <input type="text" id="captcha-input" name="captcha" lang="ko" required />
+            <input type="text" id="captcha-input" name="captcha" lang="ko" style="-ms-ime-mode: active" required />
             <div class="button-wrapper" style="flex-direction: row">
-              <button id="cancel">날짜 다시 선택</button>
+              <button id="cancel" type="button">날짜 다시 선택</button>
               <button id="complete" type="submit">입력완료</button>
             </div>
           </form>
@@ -53,7 +53,53 @@ const pages = {
   `,
   discount: `
     <div style="display: flex; justify-content: space-between">
-      <div></div>
+      <div>
+        <table>
+          <thead id="table-head"></thead>
+          <tr style="background-color: #F1EEEC">
+            <th>구분</th>
+            <th>할인 권종</th>
+            <th>할인율</th>
+            <th>매수</th>
+          </tr>
+          <tr>
+            <td style="background-color: #F1EEEC">기본가</td>
+            <td>일반</td>
+            <td>정가</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td id="rowspan" rowspan="5" style="padding: 50px; background-color: #F1EEEC">할인가</td>
+            <td>조기예매 할인</td>
+            <td>25%</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>서울시 중구민 할인</td>
+            <td>10%</td>
+            <td></td>
+          </tr>
+          <tr id="matine">
+            <td>마티네 할인</td>
+            <td>30%</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>장애인 할인</td>
+            <td>50%</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>국가유공자 할인</td>
+            <td>50%</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="3" style="background-color: #F1EEEC">총액</td>
+            <td id="price"></td>
+          </tr>
+        </table>
+      </div>
       <div id="sidebar">
         <div id="step">
           <div>좌석 선택</div>
@@ -73,7 +119,7 @@ const pages = {
           </div>
           <div class="column">
             <div class="tag">선택좌석</div>
-            <div id="seatInfo"></div>
+            <div id="seatInfo" style="white-space: pre-line"></div>
           </div>
         </div>
         <div class="button-wrapper" style="display: flex; justify-content: space-between">
@@ -92,7 +138,15 @@ const pages = {
 function loadPage(page) {
   document.getElementById("body").innerHTML = pages[page];
 
+  const urlParams = new URLSearchParams(window.location.search);
+  const selectedDate = urlParams.get('date');
+
   if (page === 'seat') {
+    if (sessionStorage.getItem('isPrevClicked') === 'true') {
+      window.location.reload();
+      sessionStorage.setItem('isPrevClicked', 'false');
+    }
+
     // 좌석 데이터 (0: 예약 가능, 1: 이미 예약됨)
     // 좌석 데이터 생성 함수
     function generateSeats() {
@@ -301,7 +355,7 @@ function loadPage(page) {
             const reservationId = '12345';
             const userId = 'user01';
             const musical = '스윙 데이즈_암호명 A';
-            const date = '2024-12-01';
+            const date = selectedDate;
 
             let reservationData = [
               ['예약번호', '유저아이디', '뮤지컬제목', '날짜', '좌석정보']
@@ -439,7 +493,10 @@ function loadPage(page) {
           seatDiv.setAttribute('data-row', row);
           seatDiv.setAttribute('data-index', index);
 
-          seatDiv.addEventListener('click', () => showSelectedSeatInfo(floor, row, index));
+          if (seat === 0) {
+            seatDiv.addEventListener('click',
+              () => showSelectedSeatInfo(floor, row, index));
+          }
 
           rowDiv.appendChild(seatDiv);
         });
@@ -460,7 +517,7 @@ function loadPage(page) {
       const reservationId = '12345';
       const userId = 'user01';
       const musicalTitle = '스윙 데이즈_암호명 A';
-      const date = '2024-12-01';
+      const date = selectedDate;
 
       // 좌석 정보를 CSV 데이터로 추가
       let reservationData = [
@@ -556,15 +613,27 @@ function loadPage(page) {
     document.getElementById('cancel').addEventListener("click", () => window.close());
   } else if (page === 'discount') {
     const reservationData = JSON.parse(sessionStorage.getItem('reservationData'));
+    const musicalDate = reservationData[1][3];
 
     document.getElementById("musicalTitle").textContent = reservationData[1][2];
-    document.getElementById("musicalDate").textContent = reservationData[1][3];
+    document.getElementById("musicalDate").textContent = musicalDate;
     document.getElementById("seatInfo").textContent = reservationData
     .slice(1) // 첫 번째 행(헤더)은 제외
     .map((data) => data[4]) // 좌석 정보를 추출
     .join('\n');
 
-    document.getElementById("prev-step").addEventListener("click", () => loadPage("seat"));
+    const day = (new Date(musicalDate)).getDay();
+    if (day === 3 || day === 5) {
+      document.getElementById("matine").style.display = "";
+    } else {
+      document.getElementById("matine").style.display = "none";
+      document.getElementById("rowspan").rowSpan = 4;
+    }
+
+    document.getElementById("prev-step").addEventListener("click", () => {
+      sessionStorage.setItem('isPrevClicked', 'true');
+      loadPage("seat")
+    });
     document.getElementById("next-step").addEventListener("click", () => loadPage("purchase"));
   } else if (page === 'purchase') {
     function writeReservationCSV(data) {

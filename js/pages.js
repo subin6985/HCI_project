@@ -453,9 +453,21 @@ function loadPage(page) {
       const left = (window.innerWidth - popupWidth) / 2;
       const top = (window.innerHeight - popupHeight) / 2;
 
+      const selectedDate = document.querySelector("#calendar")._flatpickr.selectedDates[0];
+      let formattedDate = '';
+
+      if (selectedDate) {
+        // 하루 뒤 날짜 계산
+        const nextDay = new Date(selectedDate);
+        nextDay.setDate(nextDay.getDate() + 1);
+
+        // YYYY-MM-DD 형식으로 변환
+        formattedDate = nextDay.toISOString().split('T')[0];
+      }
+
       // 팝업창 열기
       window.open(
-        'seatSelection.html',
+        `seatSelection.html?date=${formattedDate}`,
         '_blank',
         `width=${popupWidth},height=${popupHeight},left=${left},top=${top},resizable=yes`
       );

@@ -239,15 +239,19 @@
 /* DISCOUNT */
 #info {
   margin-top: 20px;
-  margin-bottom: 300px;
+  margin-bottom: 380px;
   background-color: white;
-  gap: 5px;
   padding: 10px;
 }
 
 .column {
   display: flex;
   flex-direction: row;
+  margin-bottom: 5px;
+}
+
+.column:last-child {
+  margin-bottom: 0;
 }
 
 .column .tag {
@@ -277,4 +281,16 @@
 
 .prev:hover {
   background-color: #666666 !important;
+}
+
+table {
+  border-collapse : collapse; /*이중선 제거*/
+  margin-top: 150px;
+  margin-left: 50px;
+}
+
+th,td {
+  padding: 10px 20px;
+  text-align: center;
+  border: 1px solid #000;
 }
