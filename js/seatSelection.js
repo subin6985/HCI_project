@@ -73,10 +73,10 @@ const pages = {
           <tr>
             <td id="rowspan" rowspan="5" style="padding: 50px; background-color: #F1EEEC">할인가</td>
             <td class="tooltip">조기예매 할인
-              <span class="tooltiptext">11월 26일(화) ~ 12월 24일(화) 예매 시 적용</span>
+              <span class="tooltiptext">11월 26일(화) ~ 12월 31일(화) 예매 시 적용</span>
             </td>
             <td>25%</td>
-            <td><input type="checkbox" class="discount-checkbox" data-discount="25"></td>
+            <td><input type="checkbox" class="discount-checkbox" data-discount="25" id="ealry-bird"></td>
           </tr>
           <tr>
             <td class="tooltip">서울시 중구민 할인
@@ -687,6 +687,15 @@ function loadPage(page) {
     } else {
       document.getElementById("matine").style.display = "none";
       document.getElementById("rowspan").rowSpan = 4;
+    }
+
+    // 31일 이후는 조기예매 선택 불가
+    const cutoffDate = new Date('2024-12-31T23:59:59');
+    const earlyBirdCheckbox = document.getElementById("ealry-bird");
+
+    if (new Date(musicalDate) > cutoffDate) {
+      earlyBirdCheckbox.disabled = true;
+      earlyBirdCheckbox.title = "조기예매 기간이 아닙니다.";
     }
 
     // 좌석별 금액
