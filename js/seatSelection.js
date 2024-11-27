@@ -142,6 +142,10 @@ const pages = {
             <div class="tag">선택좌석</div>
             <div id="seatInfo" style="white-space: pre-line"></div>
           </div>
+          <div class="column">
+            <div class="tag">금액</div>
+            <div id="totalPrice"></div>
+          </div>
         </div>
         <div class="button-wrapper" style="display: flex; justify-content: space-between">
           <button class="prev" id="prev-step">이전단계</button>
@@ -736,6 +740,7 @@ function loadPage(page) {
 
       // 총액 표시
       document.getElementById('price').textContent = discountedPrice.toLocaleString() + '원';
+      document.getElementById("totalPrice").textContent = discountedPrice.toLocaleString() + '원';
 
       // 총액 저장
       sessionStorage.setItem('totalPrice', discountedPrice);
@@ -774,8 +779,7 @@ function loadPage(page) {
     .map((data) => data[4]) // 좌석 정보를 추출
     .join('\n');
 
-    const priceData = sessionStorage.getItem('totalPrice');
-    document.getElementById("totalPrice").textContent = priceData;
+    document.getElementById("totalPrice").textContent = parseInt(sessionStorage.getItem('totalPrice')).toLocaleString() + '원';
 
     function writeReservationCSV(data) {
       const BOM = '\uFEFF';
