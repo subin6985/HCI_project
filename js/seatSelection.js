@@ -53,7 +53,9 @@ const pages = {
   `,
   discount: `
     <div style="display: flex; justify-content: space-between">
-      <div>
+      <div style="padding: 20px">
+        <p style="margin-top: 80px; font-size: 18px; font-weight: 600;">할인 권종 선택</p>
+        <div style="width: 290px; height: 0; border: 1px solid black;"></div>
         <table>
           <thead id="table-head"></thead>
           <tr style="background-color: #F1EEEC">
@@ -149,6 +151,43 @@ const pages = {
     </div>
   `,
   purchase: `
+    <div style="display: flex; justify-content: space-between">
+      <div style="padding: 20px">
+        <p style="margin-top: 80px; font-size: 18px; font-weight: 600;">결제 정보 확인</p>
+        <div style="width: 290px; height: 0; border: 1px solid black;"></div>
+      </div>
+      <div id="sidebar">
+        <div id="step">
+          <div>좌석 선택</div>
+          <p>&gt;</p>
+          <div>할인 권종 선택</div>
+          <p>&gt;</p>
+          <div class="current">결제</div>
+        </div>
+        <div id="info">
+          <div class="column">
+            <div class="tag">제목</div>
+            <div id="musicalTitle"></div>
+          </div>
+          <div class="column">
+            <div class="tag">일시</div>
+            <div id="musicalDate"></div>
+          </div>
+          <div class="column">
+            <div class="tag">선택좌석</div>
+            <div id="seatInfo" style="white-space: pre-line"></div>
+          </div>
+          <div class="column">
+            <div class="tag">금액</div>
+            <div id="totalPrice"></div>
+          </div>
+        </div>
+        <div class="button-wrapper" style="display: flex; justify-content: space-between">
+          <button class="prev" id="prev-step">이전단계</button>
+          <button class="next" id="next-step">결제</button>
+        </div>
+      </div>
+    </div>
   `,
   complete: `
   `
@@ -688,6 +727,9 @@ function loadPage(page) {
 
       // 총액 표시
       document.getElementById('price').textContent = discountedPrice.toLocaleString() + '원';
+
+      // 총액 저장
+      sessionStorage.setItem('totalPrice', discountedPrice);
     }
 
     // 체크박스 클릭 시 다른 체크박스 해제 및 총액 재계산
@@ -713,6 +755,19 @@ function loadPage(page) {
     });
     document.getElementById("next-step").addEventListener("click", () => loadPage("purchase"));
   } else if (page === 'purchase') {
+    const reservationData = JSON.parse(sessionStorage.getItem('reservationData'));
+    const musicalDate = reservationData[1][3];
+
+    document.getElementById("musicalTitle").textContent = reservationData[1][2];
+    document.getElementById("musicalDate").textContent = musicalDate;
+    document.getElementById("seatInfo").textContent = reservationData
+    .slice(1) // 첫 번째 행(헤더)은 제외
+    .map((data) => data[4]) // 좌석 정보를 추출
+    .join('\n');
+
+    const priceData = sessionStorage.getItem('totalPrice');
+    document.getElementById("totalPrice").textContent = priceData;
+
     function writeReservationCSV(data) {
       const BOM = '\uFEFF';
 
@@ -724,8 +779,13 @@ function loadPage(page) {
       hiddenElement.click();
     }
 
-    const reservationData = JSON.parse(sessionStorage.getItem('reservationData'));
-    writeReservationCSV(reservationData);
+    document.getElementById("prev-step").addEventListener("click", () => {
+      loadPage("discount")
+    });
+    document.getElementById("next-step").addEventListener("click", () => {
+      writeReservationCSV(reservationData);
+      loadPage("confirm")
+    });
   }
 }
 

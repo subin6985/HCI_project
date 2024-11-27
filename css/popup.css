@@ -285,8 +285,7 @@
 
 table {
   border-collapse : collapse; /*이중선 제거*/
-  margin-top: 150px;
-  margin-left: 50px;
+  margin-top: 20px;
 }
 
 th,td {
