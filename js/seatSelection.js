@@ -70,27 +70,46 @@ const pages = {
           </tr>
           <tr>
             <td id="rowspan" rowspan="5" style="padding: 50px; background-color: #F1EEEC">할인가</td>
-            <td>조기예매 할인</td>
+            <td class="tooltip">조기예매 할인
+              <span class="tooltiptext">11월 26일(화) ~ 12월 24일(화) 예매 시 적용</span>
+            </td>
             <td>25%</td>
             <td><input type="checkbox" class="discount-checkbox" data-discount="25"></td>
           </tr>
           <tr>
-            <td>서울시 중구민 할인</td>
+            <td class="tooltip">서울시 중구민 할인
+              <span class="tooltiptext">
+                <p>'서울시 중구' 소재 주소가 기재된 본인 '실물' 신분증 및 현장 본인 확인</p>
+                <p>증빙자료 미지참 시 정가 기준 차액 지불</p>
+              </span>
+            </td>
             <td>10%</td>
             <td><input type="checkbox" class="discount-checkbox" data-discount="10"></td>
           </tr>
           <tr id="matine">
-            <td>마티네 할인</td>
+            <td class="tooltip">마티네 할인
+              <span class="tooltiptext">수, 금 공연 관람 시 적용</span>
+            </td>
             <td>30%</td>
             <td><input type="checkbox" class="discount-checkbox" data-discount="30"></td>
           </tr>
           <tr>
-            <td>장애인 할인</td>
+            <td class="tooltip">장애인 할인
+              <span class="tooltiptext">
+                <p>복지카드 등 증빙자료 및 현장 본인 확인</p>
+                <p>증빙자료 미지참 시 정가 기준 차액 지불</p>
+              </span>
+            </td>
             <td>50%</td>
             <td><input type="checkbox" class="discount-checkbox" data-discount="50"></td>
           </tr>
           <tr>
-            <td>국가유공자 할인</td>
+            <td class="tooltip">국가유공자 할인
+              <span class="tooltiptext">
+                <p>국가유공자 증빙자료 및 현장 본인 확인</p>
+                <p>증빙자료 미지참 시 정가 기준 차액 지불</p>
+              </span>
+            </td>
             <td>50%</td>
             <td><input type="checkbox" class="discount-checkbox" data-discount="50"></td>
           </tr>
