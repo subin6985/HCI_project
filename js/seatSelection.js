@@ -159,6 +159,29 @@ const pages = {
       <div style="padding: 20px">
         <p style="margin-top: 80px; font-size: 18px; font-weight: 600;">결제 정보 확인</p>
         <div style="width: 290px; height: 0; border: 1px solid black;"></div>
+        <span style="margin-right: 10px">신용/체크카드</span>
+        <select style="padding: 5px; margin-top: 20px">
+          <option>롯데카드</option>
+          <option>삼성카드</option>
+          <option>수협카드</option>
+          <option>신한카드</option>
+          <option>씨티카드</option>
+          <option>외환카드</option>
+          <option>우리카드</option>
+          <option>전북카드</option>
+          <option>제주카드</option>
+          <option>현대카드</option>
+          <option>BC카드</option>
+          <option>KB국민카드</option>
+          <option>NH카드</option>
+        </select>
+        <table id="priceTable">
+          <tr>
+            <td>결제금액</td>
+            <td id="totalPriceTable"></td>
+          </tr>
+        </table>
+        <div id="bankMenu" class="dropdown-content"></div>
       </div>
       <div id="sidebar">
         <div id="step">
@@ -194,6 +217,11 @@ const pages = {
     </div>
   `,
   complete: `
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+      <img src="https://cdn-icons-png.flaticon.com/128/16019/16019803.png" style="width: 120px; height: 120px; margin-top: 177px">
+      <p style="font-size: 28px; font-weight: 600; margin: 75px 0">예매가 완료되었습니다!</p>
+      <button id="closeWindow">창 닫기</button>
+    </div>
   `
 }
 
@@ -780,6 +808,7 @@ function loadPage(page) {
     .join('\n');
 
     document.getElementById("totalPrice").textContent = parseInt(sessionStorage.getItem('totalPrice')).toLocaleString() + '원';
+    document.getElementById("totalPriceTable").textContent = parseInt(sessionStorage.getItem('totalPrice')).toLocaleString() + '원';
 
     function writeReservationCSV(data) {
       const BOM = '\uFEFF';
@@ -797,8 +826,10 @@ function loadPage(page) {
     });
     document.getElementById("next-step").addEventListener("click", () => {
       writeReservationCSV(reservationData);
-      loadPage("confirm")
+      loadPage("complete")
     });
+  } else if (page === 'complete') {
+    document.getElementById("closeWindow").addEventListener("click", () => window.close());
   }
 }
 

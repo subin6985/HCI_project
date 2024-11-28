@@ -7,7 +7,7 @@ document.getElementById("header").innerHTML = `
     <div class="right">
       <button id="logout">로그아웃</button>
       <button id="mypage">마이페이지</button>
-      <button id="languageButton">kor</button>
+      <button id="languageButton">kor</button><span style="font-size: 10px">▼</span>
       <div id="languageMenu" class="dropdown-content"></div>
     </div>
   </header>
