@@ -201,3 +201,26 @@
 #book:hover {
   background-color: #7035B7;
 }
+
+/* MYPAGE */
+#reservationTable {
+  margin-bottom: 15px;
+}
+
+#reservationTable th {
+  padding: 10px 50px;
+  background-color: #F1EEEC;
+}
+
+#reservationTable td {
+  padding: 5px;
+}
+
+#reservationTable td button {
+  border: 1px solid #B7B7B7;
+  border-radius: 5px;
+}
+
+#reservationTable td button:hover {
+  color: #8E43E7;
+}

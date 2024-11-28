@@ -510,6 +510,7 @@ function loadPage(page) {
           const editButton = document.createElement('button');
           editButton.textContent = '수정';
           editButton.addEventListener('click', () => editReservation(newRow));
+          editCell.style.textAlign = 'center';
           editButton.style.cursor = 'pointer';
           editCell.appendChild(editButton);
         }
