@@ -424,13 +424,13 @@ function loadPage(page) {
           const assignedSeats = [];
 
           let seatType = '';
-          if (selectedArea.includes('vip')) {
+          if (selectedArea.includes('VIP')) {
             seatType = 'VIP석';
-          } else if (selectedArea.includes('r')) {
+          } else if (selectedArea.includes('R')) {
             seatType = 'R석';
-          } else if (selectedArea.includes('s')) {
+          } else if (selectedArea.includes('S')) {
             seatType = 'S석';
-          } else if (selectedArea.includes('a')) {
+          } else if (selectedArea.includes('A')) {
             seatType = 'A석';
           }
 

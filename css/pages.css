@@ -214,6 +214,7 @@
 
 #reservationTable td {
   padding: 5px;
+  gap: 5px;
 }
 
 #reservationTable td button {

@@ -520,6 +520,13 @@ function loadPage(page) {
     // 예약 데이터 수정 함수
     function editReservation(row) {
       const cells = row.querySelectorAll('td');
+
+      // 처음 수정 시 원래 데이터를 저장 (row의 data-original 속성 사용)
+      if (!row.dataset.original) {
+        const originalData = Array.from(cells).map((cell, index) => (index < cells.length - 1 ? cell.textContent : null)); // 수정 버튼 제외
+        row.dataset.original = JSON.stringify(originalData); // 데이터를 JSON 문자열로 저장
+      }
+
       for (let i = 1; i < cells.length - 1; i++) {
         const input = document.createElement('input');
         input.type = 'text';
@@ -528,12 +535,44 @@ function loadPage(page) {
         cells[i].appendChild(input);
       }
 
+      // 버튼 변경: 수정 -> 취소
+      const editButton = row.cells[row.cells.length - 1].querySelector('button');
+      editButton.textContent = '취소';
+      editButton.removeEventListener('click', () => editReservation(row)); // 기존 이벤트 제거
+      editButton.addEventListener('click', () => cancelEdit(row)); // 취소 이벤트 추가
+
+      // 저장 버튼 추가
       const saveButton = document.createElement('button');
       saveButton.textContent = '저장';
       saveButton.addEventListener('click',
         () => saveReservation(row, saveButton));
       saveButton.style.cursor = 'pointer';
+      saveButton.style.marginLeft = '5px';
       row.cells[row.cells.length - 1].appendChild(saveButton);
+    }
+
+    // 수정 취소 함수
+    function cancelEdit(row) {
+      const cells = row.querySelectorAll('td');
+
+      // 입력창 제거 및 원래 데이터 복원
+      const originalData = JSON.parse(row.dataset.original);
+      for (let i = 0; i < cells.length - 1; i++) {
+        cells[i].textContent = originalData[i];
+      }
+
+      // 버튼 변경: 취소 -> 수정
+      const editButton = row.cells[row.cells.length - 1].querySelector('button:first-child');
+      editButton.textContent = '수정';
+      editButton.removeEventListener('click', () => cancelEdit(row)); // 기존 이벤트 제거
+      editButton.addEventListener('click', () => editReservation(row)); // 수정 이벤트 추가
+
+      // 저장 버튼 제거
+      while(row.cells[row.cells.length - 1].querySelectorAll('button').length > 1) {
+        const button = row.cells[row.cells.length - 1].querySelector(
+          'button:last-child');
+        button.remove();
+      }
     }
 
     // 수정된 데이터 저장 함수
@@ -546,6 +585,10 @@ function loadPage(page) {
 
       // 저장 버튼 제거
       saveButton.remove();
+
+      // 기존 데이터 업데이트 (data-original)
+      const updatedData = Array.from(cells).map((cell, index) => (index < cells.length - 1 ? cell.textContent : null));
+      row.dataset.original = JSON.stringify(updatedData); // 새 데이터를 저장
 
       // 수정된 데이터를 CSV로 저장
       exportTableToCSV('reservations.csv');
