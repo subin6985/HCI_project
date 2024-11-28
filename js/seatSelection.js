@@ -62,7 +62,7 @@ const pages = {
             <th>구분</th>
             <th>할인 권종</th>
             <th>할인율</th>
-            <th>매수</th>
+            <th>선택</th>
           </tr>
           <tr>
             <td style="background-color: #F1EEEC">기본가</td>
