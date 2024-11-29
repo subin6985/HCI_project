@@ -583,6 +583,12 @@ function loadPage(page) {
         cell.textContent = input.value;
       });
 
+      // 버튼 변경: 취소 -> 수정
+      const editButton = row.cells[row.cells.length - 1].querySelector('button:first-child');
+      editButton.textContent = '수정';
+      editButton.removeEventListener('click', () => cancelEdit(row)); // 기존 이벤트 제거
+      editButton.addEventListener('click', () => editReservation(row)); // 수정 이벤트 추가
+
       // 저장 버튼 제거
       saveButton.remove();
 
